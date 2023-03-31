@@ -1,0 +1,5 @@
+# ninja log v5
+1	3612	1636977934068513941	/home/actl/Desktop/TraDeS-master/src/lib/model/networks/DCNv2/build/temp.linux-x86_64-3.6/home/actl/Desktop/TraDeS-master/src/lib/model/networks/DCNv2/src/cpu/dcn_v2_im2col_cpu.o	42efbfaba9ec4e72
+1	4828	1636977935284516229	/home/actl/Desktop/TraDeS-master/src/lib/model/networks/DCNv2/build/temp.linux-x86_64-3.6/home/actl/Desktop/TraDeS-master/src/lib/model/networks/DCNv2/src/cpu/dcn_v2_cpu.o	42dcabc7cc452c42
+1	4940	1636977935396516439	/home/actl/Desktop/TraDeS-master/src/lib/model/networks/DCNv2/build/temp.linux-x86_64-3.6/home/actl/Desktop/TraDeS-master/src/lib/model/networks/DCNv2/src/cpu/dcn_v2_psroi_pooling_cpu.o	3e8c81fadc2b0343
+0	21024	1636977951468546702	/home/actl/Desktop/TraDeS-master/src/lib/model/networks/DCNv2/build/temp.linux-x86_64-3.6/home/actl/Desktop/TraDeS-master/src/lib/model/networks/DCNv2/src/vision.o	d3285171462851f8

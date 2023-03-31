@@ -1,0 +1,37 @@
+####################
+######训练kitti######
+####################
+
+--exp_id 输出的命名
+--load_model 加载的预训练模型
+
+目标检测训练
+tracking --exp_id kitti_half --dataset kitti_tracking --dataset_version train --pre_hm --ltrb_amodal --same_aug --hm_disturb 0.05 --lost_disturb 0.4 --fp_disturb 0.1 --gpus 0 --load_model ../models/crowdhuman.pth --save_point 40,50,60 --max_frame_dist 10 --batch_size 7 --clip_len 3 --trades
+
+实例分割训练
+tracking --exp_id kitti_seg_half --dataset kitti_seg --dataset_version train --pre_hm --ltrb_amodal --same_aug --hm_disturb 0.05 --lost_disturb 0.4 --fp_disturb 0.1 --gpus 0 --load_model ../models/kitti_half.pth --save_point 40,50,60 --max_frame_dist 10 --batch_size 7 --clip_len 3 --trades
+
+合并训练一起微调
+python main.py tracking --exp_id kitti_seg_merge --dataset kitti_tracking_seg --dataset_version train --pre_hm --ltrb_amodal --same_aug --hm_disturb 0.05 --lost_disturb 0.4 --fp_disturb 0.1 --gpus 0,1,2 --load_model ../models/hh.pth --save_point 40,50,60 --max_frame_dist 10 --batch_size 16 --clip_len 3 --trades
+
+####################
+######预测kitti######
+####################
+原始模型未加检测头
+python demo.py tracking --dataset kitti_tracking --load_model ../models/kitti_pre.pth --demo ../videos/street_2d.mp4 --pre_hm --ltrb_amodal --pre_thresh 0.5 --track_thresh 0.4 --inference --clip_len 3 --trades --save_video --resize_video --input_h 384 --input_w 1280
+官方给的mot模型
+python demo.py tracking --dataset mot --load_model ../models/mot_half.pth --demo ../videos/mot_mini.mp4 --pre_hm --ltrb_amodal --pre_thresh 0.5 --track_thresh 0.4 --inference --clip_len 3 --trades --save_video --resize_video --input_h 544 --input_w 960
+加了检测头的模型，但是注释掉了
+python demo.py tracking --dataset kitti_tracking --load_model ../models/kitti_half.pth --demo ../videos/street_2d.mp4 --pre_hm --ltrb_amodal --pre_thresh 0.5 --track_thresh 0.4 --inference --clip_len 3 --trades --save_video --resize_video --input_h 384 --input_w 1280
+加了检测头的模型，冻结训练了
+python demo.py tracking --dataset kitti_seg --load_model ../models/hh.pth --demo ../videos/street_2d.mp4 --pre_hm --ltrb_amodal --pre_thresh 0.5 --track_thresh 0.4 --inference --clip_len 3 --trades --save_video --resize_video --input_h 384 --input_w 1280
+
+python demo.py tracking --dataset kitti_tracking_seg --load_model ../models/kitti_merge.pth --demo ../videos/street_2d.mp4 --pre_hm --ltrb_amodal --pre_thresh 0.5 --track_thresh 0.4 --inference --clip_len 3 --trades --save_video --resize_video --input_h 384 --input_w 1280
+
+python demo.py tracking --dataset kitti_seg --load_model ../models_dla/kitti_half_dla34.pth --demo ../data/kitti_tracking/real_data_tracking_image_2/training/image_02_new/0000 --pre_hm --ltrb_amodal --pre_thresh 0.5 --track_thresh 0.4 --inference --clip_len 3 --trades --save_video --resize_video --input_h 384 --input_w 1280
+
+CUDA_VISIBLE_DEVICES=0 python test.py tracking --exp_id kitti_half_resnet18 --dataset kitti_tracking --dataset_version val_half --pre_hm --ltrb_amodal --pre_thresh 0.5 --inference --track_thresh 0.4 --load_model ../models/mot_half.pth --gpus 0 --clip_len 3 --trades
+
+
+tracking --exp_id kitti_merge_dla34_ECA_attentionmerge --dataset kitti_tracking --dataset_version val_new --pre_hm --ltrb_amodal --pre_thresh 0.5 --inference --track_thresh 0.4 --load_model ../models_dla/kitti_merge_dla34_ECA_attentionmerge_40.pth --gpus 0 --clip_len 3 --trades
+
